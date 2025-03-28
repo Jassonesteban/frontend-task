@@ -62,7 +62,8 @@
               "buildTarget": "frontend-solati:build:production"
             },
             "development": {
-              "buildTarget": "frontend-solati:build:development"
+              "buildTarget": "frontend-solati:build:development",
+              "host": "0.0.0.0"
             }
           },
           "defaultConfiguration": "development"
