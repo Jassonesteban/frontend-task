@@ -1,0 +1,17 @@
+<div *ngIf="isOpen" class="modal-overlay">
+  <div class="modal">
+    <button (click)="closeModal()" class="modal-close">✖</button>
+
+    <h2 class="modal-title">
+      {{isLogin ? 'Crear tarea' : 'Editar tarea'}}
+    </h2>
+
+    <app-create-task *ngIf="isLogin"></app-create-task>
+
+    <p class="modal-switch">
+      <button (click)="toggleAuth()" class="modal-link">
+        {{isLogin ? 'Crear' : 'Actualizar'}}
+      </button>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div class="flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+      </svg>
+
+      <span class="text-lg">TaskAPI</span>
+    </div>
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div>
+        <label for="username" class="block text-sm/6 font-medium text-gray-900"
+          >Nombre de usuario</label
+        >
+        <div class="mt-2">
+          <input
+            type="text"
+            name="username"
+            id="username"
+            autocomplete="username"
+            placeholder="usuario345.%"
+            formControlName="username"
+            required
+            [disabled]="isLoading"
+            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
+          />
+
+          <div
+            *ngIf="
+              loginForm.get('username')?.touched && loginForm.get('username')?.invalid
+            "
+            class="text-red-600 text-sm"
+          >
+            <div *ngIf="loginForm.get('username')?.hasError('required')">
+              El nombre de usuario es requerido
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between">
+          <label
+            for="password"
+            class="block text-sm/6 font-medium text-gray-900"
+            >Contraseña</label
+          >
+          <div class="text-sm">
+            <a href="#" class="font-semibold text-black hover:text-indigo-500"
+              >Olvidaste la contraseña?</a
+            >
+          </div>
+        </div>
+        <div class="mt-2">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            autocomplete="current-password"
+            placeholder="******"
+            formControlName="password"
+            required
+            [disabled]="isLoading"
+            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-black sm:text-sm/6"
+          />
+          <div
+            *ngIf="
+              loginForm.get('password')?.touched &&
+              loginForm.get('password')?.invalid
+            "
+            class="text-red-600 text-sm"
+          >
+            <div *ngIf="loginForm.get('password')?.hasError('required')">
+              La contraseña es obligatoria.
+            </div>
+            <div *ngIf="loginForm.get('password')?.hasError('minlength')">
+              La contraseña debe tener al menos 6 caracteres.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          [disabled]="isLoading"
+          class="flex w-full justify-center rounded-md bg-black px-4 py-2 text-sm font-semibold text-white shadow-lg transition-all duration-300 ease-in-out transform hover:bg-black/80 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+        >
+          <span *ngIf="!isLoading">Ingresar</span>
+          <span *ngIf="isLoading" class="flex items-center">
+            <svg
+              class="animate-spin h-5 w-5 mr-2 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v8H4z"
+              ></path>
+            </svg>
+            Cargando...
+          </span>
+        </button>
+      </div>
+      <div *ngIf="errorMessage" class="text-red-600 text-sm text-center">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+</div>

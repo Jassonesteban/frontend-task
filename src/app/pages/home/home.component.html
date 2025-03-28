@@ -1,0 +1,81 @@
+<div class="relative">
+  <!-- Formulario de agregar o editar tarea -->
+  <div *ngIf="isAddingTask" class="absolute top-0 left-1/2 transform -translate-x-1/2 bg-white p-6 shadow-lg rounded-lg w-96">
+    <h3 class="text-xl font-bold text-gray-900 mb-4">{{ isEditing ? 'Editar Tarea' : 'Nueva Tarea' }}</h3>
+
+    <p *ngIf="errorMessage" class="text-red-600 text-sm mt-2 mb-2">
+      {{ errorMessage }}
+    </p>
+    <input [(ngModel)]="newTaskTitle" type="text" placeholder="Título"
+      class="w-full p-2 border rounded-lg mb-4 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+    <input [(ngModel)]="newDescriptionTask" type="text" placeholder="Descripción"
+      class="w-full p-2 border rounded-lg mb-4 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+    <select [(ngModel)]="newTaskStatus" class="w-full p-2 border rounded-lg mb-4 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+      <option value="PENDING">PENDING</option>
+      <option value="COMPLETED">COMPLETED</option>
+    </select>
+
+    <div class="flex justify-end">
+      <!-- Botón de Actualizar o Guardar según si estamos editando o creando -->
+      <button (click)="isEditing ? updateTask() : addTask()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+        {{ isEditing ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button (click)="closeModalTask()" class="ml-2 px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+    <!-- Contenedor del título y botón -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-bold text-gray-900">📋 Tus Tareas</h2>
+      <button (click)="openModalTask()" class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+        + Agregar tarea
+      </button>
+    </div>
+
+    <!-- Lista de tareas -->
+    <ul *ngIf="tasks.length > 0; else noTasks" class="space-y-4">
+      <li *ngFor="let task of tasks"
+          class="flex items-center justify-between p-4 bg-white shadow-md rounded-lg border-l-4"
+          [ngClass]="{'border-blue-600': task.status === 'PENDING',
+                      'border-green-600': task.status === 'COMPLETED'}">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-800">{{ task.title }}</h3>
+          <p class="text-sm text-gray-600">{{ task.description }}</p>
+        </div>
+        <div class="flex gap-2">
+          <button *ngIf="task.status !== 'COMPLETED'"  (click)="editTask(task)" class="px-3 py-1 bg-yellow-500 text-black rounded-lg hover:bg-yellow-600 transition-all">
+            Editar
+          </button>
+          <button (click)="deleteTask(task.id!)" class="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all">
+            Eliminar
+          </button>
+        </div>
+      </li>
+    </ul>
+
+    <ng-template #noTasks>
+      <div class="text-center p-6 mt-6 rounded-lg">
+        <span class="text-gray-500 text-5xl">📭</span>
+        <p class="text-gray-700 text-lg mt-2">No tienes tareas creadas aún</p>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #notLoggedIn>
+    <section class="text-center py-20">
+      <h1 class="text-5xl font-extrabold text-gray-900 leading-tight">
+        Organiza tus tareas <span class="text-blue-600">fácilmente</span> con TaskAPI
+      </h1>
+      <p class="text-lg text-gray-700 mt-4 max-w-2xl mx-auto">
+        Potencia tu productividad con una herramienta simple y efectiva para
+        gestionar tus pendientes.
+      </p>
+      <button (click)="openLogin()" class="mt-6 px-8 py-3 text-lg font-semibold bg-black text-white rounded-lg shadow-md hover:bg-gray-900 transition-all">
+        Iniciar sesión
+      </button>
+    </section>
+  </ng-template>
+</div>
